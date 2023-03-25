@@ -86,7 +86,7 @@ function currentWeatherDay(currentWeather) {
   card.append(tempElement);
   card.append(windElement);
   card.append(humidityElement);
-  currentWeatherDiv.append(card);
+  // currentWeatherDiv.append(card);
 
  
 }
