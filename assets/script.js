@@ -7,7 +7,7 @@ searchButton.addEventListener("click", function () {
     currentWeatherDay(data);
     createWeatherDays(data.forecast.forecastday);
   })
-  .catch(error => console.error(error));
+  // .catch(error => console.error(error));
 
   
   var data = [
@@ -94,28 +94,77 @@ function currentWeatherDay(currentWeather) {
 function createWeatherDays(weatherDataArray) {
 //  put the empty here and (append then empty out side the 4 loop)
 var fiveDayForecastDiv = document.querySelector(".fiveDayForecast");
+
 fiveDayForecastDiv.innerHTML = ""; // clear the container element
+console.log("After clearing:", fiveDayForecastDiv);
 for (let index = 1; index < weatherDataArray.length; index++) {
   // create forecast cards
+
+  var dayData = weatherDataArray[index];
+
+  // create the forecast card div
+  var card = document.createElement("div");
+  card.classList.add("forecast");
+
+  // add the date to the card
+  var dateElement = document.createElement("p");
+  dateElement.textContent = dayData.date;
+  card.append(dateElement);
+
+  // add the temperature to the card
+  var tempElement = document.createElement("p");
+  tempElement.textContent = `Temp: ${dayData.temp}`;
+  card.append(tempElement);
+
+  // add the wind to the card
+  var windElement = document.createElement("p");
+  windElement.textContent = `Wind: ${dayData.wind}`;
+  card.append(windElement);
+
+  // add the humidity to the card
+  var humidityElement = document.createElement("p");
+  humidityElement.textContent = `Humidity: ${dayData.humidity}`;
+  card.append(humidityElement);
+
+  // append the card to the container element
+  fiveDayForecastDiv.append(card);
 }
-  var fiveDayForecastDiv = document.querySelector(".fiveDayForecast");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// }
+//   var fiveDayForecastDiv = document.querySelector(".fiveDayForecast");
  
-  for (let index = 1; index < weatherDataArray.length; index++) {
-    // <div class="forecast">date</div>
-    var card = document.createElement("div");
-    card.setAttribute("class", "forecast");
-    var tempElement = document.createElement("h3");
-    tempElement.textContent = `temp: ${weatherDataArray[index].temp}`;
-    var windElement = document.createElement("h3");
-    windElement.textContent = `wind: ${weatherDataArray[index].wind}`;
-    var humidityElement = document.createElement("h3");
-    humidityElement.textContent = `humidity: ${weatherDataArray[index].humidity}`;
-    card.append(tempElement);
-    card.append(windElement);
-    card.append(humidityElement);
-    fiveDayForecastDiv.append(card);
-  }
-}
+//   for (let index = 1; index < weatherDataArray.length; index++) {
+//     // <div class="forecast">date</div>
+//     var card = document.createElement("div");
+//     card.setAttribute("class", "forecast");
+//     var tempElement = document.createElement("h3");
+//     tempElement.textContent = `temp: ${weatherDataArray[index].temp}`;
+//     var windElement = document.createElement("h3");
+//     windElement.textContent = `wind: ${weatherDataArray[index].wind}`;
+//     var humidityElement = document.createElement("h3");
+//     humidityElement.textContent = `humidity: ${weatherDataArray[index].humidity}`;
+//     card.append(tempElement);
+//     card.append(windElement);
+//     card.append(humidityElement);
+//     fiveDayForecastDiv.append(card);
+//   }
+// }
   // dont forget to empty and append the cards to clear page first
 // function that calls teh api and will return the object of 5days and current
 // function getWeatherData step1- search api for city name
