@@ -6,9 +6,12 @@ searchButton.addEventListener("click", function () {
   .then(data => {
     currentWeatherDay(data);
     createWeatherDays(data.forecast.forecastday);
+    // store weather data in local storage
+    localStorage.setItem('weatherData', JSON.stringify(data));
   })
   // .catch(error => console.error(error));
-
+// retrieve weather data from local storage
+var storedWeatherData = JSON.parse(localStorage.getItem('weatherData'));
   
   var data = [
     {
@@ -51,6 +54,11 @@ searchButton.addEventListener("click", function () {
     },
   ];
 
+   // if weather data is not available in local storage, use default data
+   if (!storedWeatherData) {
+    storedWeatherData = data;
+  }
+
   //   call var data= getWeatherData()   this is calling the api server
   currentWeatherDay(data[0]);
   // uncommenting line 48 made them go back on screen
@@ -69,9 +77,9 @@ function currentWeatherDay(currentWeather) {
   // <p>display temp</p>
   // <p>display wind</p>
   // <p>display humidity</p>
-  var card = document.querySelector("forecast"); //took out forecast
-card.innerHTML = ''
-var tempElement = document.createElement("p")
+  var card = document.querySelector(".forecast"); //took out forecast
+card.innerHTML = '';
+
   var tempElement = document.createElement("p");
   tempElement.textContent = `temp: ${currentWeather.temp}`;
   var windElement = document.createElement("p");
@@ -105,7 +113,8 @@ for (let index = 1; index < weatherDataArray.length; index++) {
 
   // create the forecast card div
   var card = document.createElement("div");
-  card.classList.add("forecast");
+  // added . before forecast and seemed to work
+  card.classList.add(".forecast");
 
   // add the date to the card
   var dateElement = document.createElement("p");
