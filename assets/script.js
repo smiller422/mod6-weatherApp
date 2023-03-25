@@ -69,8 +69,9 @@ function currentWeatherDay(currentWeather) {
   // <p>display temp</p>
   // <p>display wind</p>
   // <p>display humidity</p>
-  var card = document.querySelector(".forecast");
-
+  var card = document.querySelector("forecast"); //took out forecast
+card.innerHTML = ''
+var tempElement = document.createElement("p")
   var tempElement = document.createElement("p");
   tempElement.textContent = `temp: ${currentWeather.temp}`;
   var windElement = document.createElement("p");
