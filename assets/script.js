@@ -1,3 +1,5 @@
+var mydata
+
 searchButton.addEventListener("click", function () {
   alert("clicked!");
 // api key
@@ -5,49 +7,53 @@ searchButton.addEventListener("click", function () {
   .then(response => response.json())
   .then(data => {
     currentWeatherDay(data);
-    createWeatherDays(data.forecast.forecastday);
+    // createWeatherDays(data.forecast.forecastday); commmented out 3/26
     // store weather data in local storage
     localStorage.setItem('weatherData', JSON.stringify(data));
   })
   // .catch(error => console.error(error));
 // retrieve weather data from local storage
 var storedWeatherData = JSON.parse(localStorage.getItem('weatherData'));
+
+mydata = storedWeatherData
+createWeatherDays(storedWeatherData)
+
   
   var data = [
     {
       city: "charlotte",
-      date: "03/19/2023",
+      date: "03/25/2023",
       temp: 60,
       wind: 25,
       humidity: 30,
     },
     //  can add in dates to teh ones below
     {
-      date: "03/19/2023",
+      date: "03/25/2023",
       temp: 60,
       wind: 65,
       humidity: 60,
     },
     {
-      date: "3/19/2023",
+      date: "3/25/2023",
       temp: 70,
       wind: 45,
       humidity: 10,
     },
     {
-      date: "3/19/2023",
+      date: "3/25/2023",
+      temp: 90,
+      wind: 45,
+      humidity: 10,
+    },
+    {
+      date: "3/25/2023",
       temp: 80,
       wind: 45,
       humidity: 10,
     },
     {
-      date: "3/19/2023",
-      temp: 80,
-      wind: 45,
-      humidity: 10,
-    },
-    {
-      date: "3/19/2023",
+      date: "3/25/2023",
       temp: 80,
       wind: 45,
       humidity: 10,
@@ -60,7 +66,7 @@ var storedWeatherData = JSON.parse(localStorage.getItem('weatherData'));
   }
 
   //   call var data= getWeatherData()   this is calling the api server
-  currentWeatherDay(data[0]);
+  // currentWeatherDay(data[0]);             commented this out 3/26
   // uncommenting line 48 made them go back on screen
   createWeatherDays(data);
 });
@@ -81,32 +87,38 @@ function currentWeatherDay(currentWeather) {
 card.innerHTML = '';
 
   var tempElement = document.createElement("p");
-  tempElement.textContent = `temp: ${currentWeather.temp}`;
+  tempElement.textContent = `temp: ${currentWeather.list[0].main.temp}`;
   var windElement = document.createElement("p");
-  windElement.textContent = `wind: ${currentWeather.wind}`;
+  windElement.textContent = `wind: ${currentWeather.list[0].wind.speed}`;
   var humidityElement = document.createElement("p");
-  humidityElement.textContent = `humidity: ${currentWeather.humidity}`;
+  humidityElement.textContent = `humidity: ${currentWeather.list[0].main.humidity}`;
   var cityElement = document.createElement("h1");
-  cityElement.textContent = `city: ${currentWeather.city}`;
+  cityElement.textContent = `city: ${currentWeather.city.name}`;
   var dateElement = document.createElement("p");
-  dateElement.textContent = `date: ${currentWeather.date}`;
+  date = currentWeather.list[0].dt_txt
+  // dateElement.textContent = `date: ${currentWeather.date}`;  commented out 3/26 and replaced w line above
+  
+  date = date.split(" ")
+  date = date[0]
+
+  dateElement.textContent = 'date: ${date}';
+  
   card.append(cityElement);
   card.append(dateElement);
   card.append(tempElement);
   card.append(windElement);
   card.append(humidityElement);
   // currentWeatherDiv.append(card);
-
- 
 }
 
 function createWeatherDays(weatherDataArray) {
 //  put the empty here and (append then empty out side the 4 loop)
 var fiveDayForecastDiv = document.querySelector(".fiveDayForecast");
 
-fiveDayForecastDiv.innerHTML = ""; // clear the container element
-console.log("After clearing:", fiveDayForecastDiv);
-for (let index = 1; index < weatherDataArray.length; index++) {
+// fiveDayForecastDiv.innerHTML = ""; // clear the container element, had to comment out to get cards back on screen
+// console.log("After clearing:", fiveDayForecastDiv); commented out 3/26
+// data is in every 8th index so we have to use +8 not i++
+for (let index = 0; index < weatherDataArray.list.length; index = index + 8) {  //was let index = 7
   // create forecast cards
 
   var dayData = weatherDataArray[index];
@@ -115,25 +127,29 @@ for (let index = 1; index < weatherDataArray.length; index++) {
   var card = document.createElement("div");
   // added . before forecast and seemed to work
   card.classList.add(".forecast");
+ 
 
   // add the date to the card
   var dateElement = document.createElement("p");
-  dateElement.textContent = dayData.date;
+  date = dayData.dt_txt
+  date = date.split(" ") //have to split date and time now output is =[date, time]
+  date = date[0] //only using date here - index 0 in the array
+  dateElement.textContent = `date: ${date}`;
   card.append(dateElement);
 
   // add the temperature to the card
   var tempElement = document.createElement("p");
-  tempElement.textContent = `Temp: ${dayData.temp}`;
+  tempElement.textContent = `Temp: ${dayData.main.temp}`;
   card.append(tempElement);
 
   // add the wind to the card
   var windElement = document.createElement("p");
-  windElement.textContent = `Wind: ${dayData.wind}`;
+  windElement.textContent = `Wind: ${dayData.wind.speed}`;
   card.append(windElement);
 
   // add the humidity to the card
   var humidityElement = document.createElement("p");
-  humidityElement.textContent = `Humidity: ${dayData.humidity}`;
+  humidityElement.textContent = `Humidity: ${dayData.main.humidity}`;
   card.append(humidityElement);
 
   // append the card to the container element
@@ -156,29 +172,4 @@ for (let index = 1; index < weatherDataArray.length; index++) {
 
 
 
-// }
-//   var fiveDayForecastDiv = document.querySelector(".fiveDayForecast");
- 
-//   for (let index = 1; index < weatherDataArray.length; index++) {
-//     // <div class="forecast">date</div>
-//     var card = document.createElement("div");
-//     card.setAttribute("class", "forecast");
-//     var tempElement = document.createElement("h3");
-//     tempElement.textContent = `temp: ${weatherDataArray[index].temp}`;
-//     var windElement = document.createElement("h3");
-//     windElement.textContent = `wind: ${weatherDataArray[index].wind}`;
-//     var humidityElement = document.createElement("h3");
-//     humidityElement.textContent = `humidity: ${weatherDataArray[index].humidity}`;
-//     card.append(tempElement);
-//     card.append(windElement);
-//     card.append(humidityElement);
-//     fiveDayForecastDiv.append(card);
-//   }
-// }
-  // dont forget to empty and append the cards to clear page first
-// function that calls teh api and will return the object of 5days and current
-// function getWeatherData step1- search api for city name
-// real step 1-   var latLongData = getCityCoordinate(cityName)
 
-// 1) search API for city name  ==> function will return lat, long
-// 2) call a different route at openweatherapi var data = getWeatherData(lat, long)
