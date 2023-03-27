@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="./assets/styles.css" />
     <title>weather app</title>
   </head>
 
@@ -16,49 +16,11 @@
       <div class="sideBox">
         <h1>search for a city</h1>
         <div class="searchBox">
-          <input type="text" placeholder="Indian Land, SC" />
+          <input id="city-search" type="text" placeholder="Indian Land, SC" />
           <button class="searchBtn" id="searchButton">search</button>
           <hr class="horizLine" />
-          <input
-            type="text"
-            class="searchResultBox"
-            placeholder="Indian Land, SC"
-          />
-          <input
-            type="text"
-            class="searchResultBox"
-            placeholder="Indian Land, SC"
-          />
-          <input
-            type="text"
-            class="searchResultBox"
-            placeholder="Indian Land, SC"
-          />
-          <input
-            type="text"
-            class="searchResultBox"
-            placeholder="Indian Land, SC"
-          />
-          <input
-            type="text"
-            class="searchResultBox"
-            placeholder="Indian Land, SC"
-          />
-          <input
-            type="text"
-            class="searchResultBox"
-            placeholder="Indian Land, SC"
-          />
-          <input
-            type="text"
-            class="searchResultBox"
-            placeholder="Indian Land, SC"
-          />
-          <input
-            type="text"
-            class="searchResultBox"
-            placeholder="Indian Land, SC"
-          />
+          <div id="previous-search-div"></div>
+         
         </div>
       </div>
       <div class="mainBox">
@@ -78,6 +40,6 @@
         </div>
       </div>
     </section>
-    <script src="script.js"></script>
+    <script src="./assets/script.js"></script>
   </body>
 </html>
